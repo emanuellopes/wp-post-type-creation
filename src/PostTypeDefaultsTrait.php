@@ -10,6 +10,8 @@ trait PostTypeDefaultsTrait
     private function getDefaultArgs(): array
     {
         return array(
+            'label' => '',
+            'labels' => array(),
             'public' => true,
             'hierarchical' => true,
             'exclude_from_search' => false,

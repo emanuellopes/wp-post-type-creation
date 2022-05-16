@@ -2,6 +2,7 @@
 
 namespace emanuellopes\WpPostType;
 
+use emanuellopes\WpPostType\Contracts\IPostTypeArgsInterface;
 use emanuellopes\WpPostType\Contracts\IPostTypeInterface;
 use emanuellopes\WpPostType\Contracts\IPostTypeLabel;
 use emanuellopes\WpPostType\Exceptions\EmptyLabelsException;
@@ -14,7 +15,8 @@ class PostType implements IPostTypeInterface
     private string $slug;
 
     private array $args;
-    private PostTypeLabel $postTypeLabel;
+    private ?PostTypeLabel $postTypeLabel = null;
+    private ?PostTypeArgs $postTypeArgs = null;
 
     public function __construct()
     {
@@ -28,6 +30,19 @@ class PostType implements IPostTypeInterface
         return $this;
     }
 
+    public function args(): IPostTypeArgsInterface
+    {
+        return $this->postTypeArgs = new PostTypeArgs();
+    }
+
+    private function updateArgs(): void
+    {
+        if (! $this->postTypeArgs) {
+            return;
+        }
+        $this->args = array_merge($this->args, $this->postTypeArgs->build());
+    }
+
     public function labels(string $singular, string $plural): IPostTypeLabel
     {
         $this->postTypeLabel = new PostTypeLabel($singular, $plural);
@@ -37,7 +52,14 @@ class PostType implements IPostTypeInterface
 
     private function updateLabels(): void
     {
-        $this->args['labels'] = $this->postTypeLabel->build();
+        if (! $this->postTypeLabel) {
+            return;
+        }
+
+        $this->args['labels'] = array_merge(
+            $this->args['labels'],
+            $this->postTypeLabel->build()
+        );
     }
 
     /**
@@ -55,6 +77,7 @@ class PostType implements IPostTypeInterface
 
     public function registerCallback(): void
     {
+        $this->updateArgs();
         $this->updateLabels();
 
         if (empty($this->slug)) {
