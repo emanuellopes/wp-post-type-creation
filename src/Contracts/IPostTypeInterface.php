@@ -6,9 +6,9 @@ interface IPostTypeInterface
 {
     public function slug(string $slug): IPostTypeInterface;
 
-    public function args(): IPostTypeArgsInterface;
+    public function args(IPostTypeArgsInterface $postTypeArgs): IPostTypeInterface;
 
-    public function labels(string $singular, string $plural): IPostTypeLabel;
+    public function labels(IPostTypeLabelInterface $postTypeLabel): IPostTypeInterface;
 
     public function register(int $priority = 10): void;
 }

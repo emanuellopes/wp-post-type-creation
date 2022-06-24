@@ -2,7 +2,7 @@
 
 namespace emanuellopes\WpPostType\Contracts;
 
-interface IPostTypeArgsInterface
+interface IPostTypeArgsInterface extends IPostTypeBaseInterface
 {
     public function description(string $text): IPostTypeArgsInterface;
 
@@ -28,7 +28,7 @@ interface IPostTypeArgsInterface
 
     public function restNamespace(string $restNamespace): IPostTypeArgsInterface;
 
-    public function rest_controller_class(string $restControllerClass): IPostTypeArgsInterface;
+    public function restControllerClass(string $restControllerClass): IPostTypeArgsInterface;
 
     public function menuPosition(int $position): IPostTypeArgsInterface;
 
@@ -57,7 +57,7 @@ interface IPostTypeArgsInterface
      */
     public function mapMetaCap(bool $useMetaCap): IPostTypeArgsInterface;
 
-    public function supports(array $supports): IPostTypeArgsInterface;
+    public function supports(): IPostTypeSupportsInterface;
 
     public function registerMetaBoxCb(callable $call): IPostTypeArgsInterface;
 
@@ -107,5 +107,7 @@ interface IPostTypeArgsInterface
 
     public function _builtin(bool $internal): IPostTypeArgsInterface;
 
-    public function _edit_link(string $link): IPostTypeArgsInterface;
+    public function _editLink(string $link): IPostTypeArgsInterface;
+
+    public function hideGutenberg(): IPostTypeArgsInterface;
 }

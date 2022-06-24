@@ -3,10 +3,21 @@
 namespace emanuellopes\WpPostType;
 
 use emanuellopes\WpPostType\Contracts\IPostTypeArgsInterface;
+use emanuellopes\WpPostType\Contracts\IPostTypeSupportsInterface;
 
 class PostTypeArgs implements IPostTypeArgsInterface
 {
+    private static ?PostTypeArgs $instance = null;
     private array $args = array();
+
+    public static function create(): IPostTypeArgsInterface
+    {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
 
     public function description(string $text): IPostTypeArgsInterface
     {
@@ -147,7 +158,7 @@ class PostTypeArgs implements IPostTypeArgsInterface
      *
      * @return IPostTypeArgsInterface
      */
-    public function rest_controller_class(string $restControllerClass): IPostTypeArgsInterface
+    public function restControllerClass(string $restControllerClass): IPostTypeArgsInterface
     {
         $this->args['rest_controller_class'] = $restControllerClass;
 
@@ -215,11 +226,9 @@ class PostTypeArgs implements IPostTypeArgsInterface
     }
 
     /**
-     * @param  array  $supports
-     *
-     * @return IPostTypeArgsInterface
+     * @return IPostTypeSupportsInterface
      */
-    public function supports(array $supports): IPostTypeArgsInterface
+    public function supports(): IPostTypeSupportsInterface
     {
         $this->args['supports'] = $supports;
 
@@ -351,9 +360,9 @@ class PostTypeArgs implements IPostTypeArgsInterface
      *
      * @return IPostTypeArgsInterface
      */
-    public function _edit_link(string $link): IPostTypeArgsInterface
+    public function _editLink(string $link): IPostTypeArgsInterface
     {
-        $this->args['_builtin'] = $link;
+        $this->args['_edit_link'] = $link;
 
         return $this;
     }
@@ -361,5 +370,35 @@ class PostTypeArgs implements IPostTypeArgsInterface
     public function build(): array
     {
         return $this->args;
+    }
+
+    /**
+     * @return IPostTypeArgsInterface
+     */
+    public function hideGutenberg(): IPostTypeArgsInterface
+    {
+        $this->showInRest(false);
+
+        return $this;
+    }
+
+    /**
+     * @return IPostTypeArgsInterface
+     */
+    public function addTitleSupport(): IPostTypeArgsInterface
+    {
+        $this->args['supports'][] = 'title';
+
+        return $this;
+    }
+
+    /**
+     * @return IPostTypeArgsInterface
+     */
+    public function addEditorSupport(): IPostTypeArgsInterface
+    {
+        $this->args['supports'][] = 'editor';
+
+        return $this;
     }
 }

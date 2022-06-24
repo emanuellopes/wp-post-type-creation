@@ -1,20 +1,22 @@
 <?php
 
 // load vendor dependencies.
+use emanuellopes\WpPostType\PostType;
+use emanuellopes\WpPostType\PostTypeArgs;
+use emanuellopes\WpPostType\PostTypeLabel;
+
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 add_action('init', function () {
-    $postType = new \emanuellopes\WpPostType\PostType();
+    $postType = new PostType();
 
-    $postType->labels('teste', 'Teste')->allItems('Todos os items');
-
-    $postType->slug('teste');
-
-    $postType->args()
-             ->public(true)
-             ->description('ttatatat')
-             ->showInRest(false)
-             ->menuPosition(0);
-
-    $postType->register(10);
+    $postType->slug('teste')
+             ->labels(
+                 PostTypeLabel::create('Teste', 'Testes')
+             )
+             ->args(
+                 PostTypeArgs::create()
+                             ->showInRest(false)
+             )
+             ->register();
 });
