@@ -83,6 +83,12 @@ class PostType implements IPostTypeInterface
         }
     }
 
+    /**
+     * @return void
+     * @throws EmptyLabelsException
+     * @throws EmptySlugException
+     * @internal Used as a callback for register post type
+     */
     public function registerCallback(): void
     {
         $this->updateArgs();
