@@ -21,3 +21,28 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 ```
 
 ## How to use it
+
+### Create a new Post type
+
+```php
+// load vendor dependencies.
+use emanuellopes\WpPostType\PostType;
+use emanuellopes\WpPostType\PostTypeArgs;
+use emanuellopes\WpPostType\PostTypeLabel;
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+add_action('init', function () {
+    $postType = new PostType();
+
+    $postType->slug('book')
+             ->labels(
+                 PostTypeLabel::create('Book', 'Books')
+             )
+             ->args(
+                 PostTypeArgs::create()
+                             ->showInRest(false)
+             )
+             ->register();
+});
+```
