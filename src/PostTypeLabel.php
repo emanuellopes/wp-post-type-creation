@@ -6,16 +6,11 @@ use emanuellopes\WpPostType\Contracts\IPostTypeLabelInterface;
 
 class PostTypeLabel implements IPostTypeLabelInterface
 {
-    private static ?PostTypeLabel $instance = null;
     private array $labels;
 
     public static function create(string $singular, string $plural): IPostTypeLabelInterface
     {
-        if (null === self::$instance) {
-            self::$instance = new self($singular, $plural);
-        }
-
-        return self::$instance;
+        return new self($singular, $plural);
     }
 
     public function __construct(string $singular, string $plural)

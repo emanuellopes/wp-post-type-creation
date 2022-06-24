@@ -7,16 +7,11 @@ use emanuellopes\WpPostType\Contracts\IPostTypeSupportsInterface;
 
 class PostTypeArgs implements IPostTypeArgsInterface
 {
-    private static ?PostTypeArgs $instance = null;
     private array $args = array();
 
     public static function create(): IPostTypeArgsInterface
     {
-        if (null === self::$instance) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
+        return new self();
     }
 
     public function description(string $text): IPostTypeArgsInterface
@@ -226,11 +221,13 @@ class PostTypeArgs implements IPostTypeArgsInterface
     }
 
     /**
-     * @return IPostTypeSupportsInterface
+     * @param  IPostTypeSupportsInterface  $support
+     *
+     * @return IPostTypeArgsInterface
      */
-    public function supports(): IPostTypeSupportsInterface
+    public function supports(IPostTypeSupportsInterface $support): IPostTypeArgsInterface
     {
-        $this->args['supports'] = $supports;
+        $this->args['supports'] = $support->build();
 
         return $this;
     }
@@ -273,6 +270,8 @@ class PostTypeArgs implements IPostTypeArgsInterface
 
     /**
      * @param  bool|array  $rewrite
+     *
+     * array('slug' => 'books', 'with_front' => true, 'feeds' => true, 'pages' => true, 'ep_mask' => EP_PERMALINK)
      *
      * @return IPostTypeArgsInterface
      */

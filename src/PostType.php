@@ -18,6 +18,11 @@ class PostType implements IPostTypeInterface
     private ?IPostTypeLabelInterface $postTypeLabel = null;
     private ?IPostTypeArgsInterface $postTypeArgs = null;
 
+    public static function create(): IPostTypeInterface
+    {
+        return new self();
+    }
+
     public function __construct()
     {
         $this->args = $this->getDefaultArgs();

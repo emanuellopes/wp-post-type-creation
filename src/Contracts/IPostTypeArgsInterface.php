@@ -57,7 +57,7 @@ interface IPostTypeArgsInterface extends IPostTypeBaseInterface
      */
     public function mapMetaCap(bool $useMetaCap): IPostTypeArgsInterface;
 
-    public function supports(): IPostTypeSupportsInterface;
+    public function supports(IPostTypeSupportsInterface $support): IPostTypeArgsInterface;
 
     public function registerMetaBoxCb(callable $call): IPostTypeArgsInterface;
 
@@ -79,7 +79,7 @@ interface IPostTypeArgsInterface extends IPostTypeBaseInterface
     public function hasArchive($archive): IPostTypeArgsInterface;
 
     /**
-     * @param  bool|array  $rewrite
+     * @param  bool|array  $rewrite array('
      *
      * @return IPostTypeArgsInterface
      */

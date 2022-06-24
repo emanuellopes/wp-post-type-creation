@@ -2,7 +2,7 @@
 
 namespace emanuellopes\WpPostType\Contracts;
 
-interface IPostTypeSupportsInterface
+interface IPostTypeSupportsInterface extends IPostTypeBaseInterface
 {
     public function addTitle(): IPostTypeSupportsInterface;
 
